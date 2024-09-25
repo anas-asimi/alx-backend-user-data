@@ -58,10 +58,10 @@ class DB:
     def update_user(self,user_id, **kwargs) -> User:
         """Update a user from the database.
         """
-        try:
-            user = self.find_user_by(id=user_id)
-            for key, value in kwargs.items():
-                setattr(user, key, value)
-            self._session.commit()
-        except ValueError:
-            raise ValueError()
+        keys = ["id","email","hashed_password","session_id","reset_token"]
+        user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if key not in keys:
+                raise ValueError()
+            setattr(user, key, value)
+        self._session.commit()
