@@ -3,7 +3,12 @@
 auth.py
 """
 
+from db import DB
 import bcrypt
+from user import User
+
+# generating the salt
+salt = bcrypt.gensalt()
 
 
 def _hash_password(password: str) -> bytes:
@@ -16,8 +21,24 @@ def _hash_password(password: str) -> bytes:
     """
     # converting password to array of bytes
     bytes = password.encode('utf-8')
-    # generating the salt
-    salt = bcrypt.gensalt()
     # Hashing the password
     hash = bcrypt.hashpw(bytes, salt)
     return hash
+
+
+class Auth:
+    """Auth class to interact with the authentication database.
+    """
+
+    def __init__(self):
+        self._db = DB()
+
+    def register_user(self, email: str, password: str) -> User:
+        assert isinstance(email, str) and len(email) > 0
+        assert isinstance(password, str) and len(password) > 0
+        try:
+            self._db.find_user_by(email=email)
+        except:
+            hashed_password = _hash_password(password)
+            return self._db.add_user(email, hashed_password)
+        raise ValueError(f"User {email} already exists")
