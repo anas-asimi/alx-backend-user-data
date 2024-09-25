@@ -62,5 +62,16 @@ def profile():
     return jsonify(payload)
 
 
+@app.route("/reset_password", methods=["POST"], strict_slashes=False)
+def get_reset_password_token():
+    """get_reset_password_token"""
+    session_id = request.cookies.get("session_id")
+    user = AUTH.get_user_from_session_id(session_id)
+    if user is None:
+        abort(403)
+    payload = {"email": user.email, "reset_token": user.reset_token}
+    return jsonify(payload)
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
