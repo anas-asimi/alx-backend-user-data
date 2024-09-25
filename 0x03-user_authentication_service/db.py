@@ -58,13 +58,12 @@ class DB:
     def update_user(self, user_id, **kwargs) -> None:
         """Update a user from the database.
         """
-        if user_id is None:
-            return None
-
-        keys = ["id", "email", "hashed_password", "session_id", "reset_token"]
         user = self.find_user_by(id=user_id)
+        if user is None:
+            return
         for key, value in kwargs.items():
-            if key not in keys:
+            if hasattr(User, key):
+                setattr(user, key, value)
+            else:
                 raise ValueError()
-            setattr(user, key, value)
         self._session.commit()
