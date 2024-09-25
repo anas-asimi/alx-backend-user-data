@@ -6,6 +6,7 @@ auth.py
 from db import DB
 import bcrypt
 from user import User
+from sqlalchemy.orm.exc import NoResultFound
 
 # generating the salt
 salt = bcrypt.gensalt()
@@ -38,7 +39,7 @@ class Auth:
         assert isinstance(password, str) and len(password) > 0
         try:
             self._db.find_user_by(email=email)
-        except:
+        except NoResultFound:
             hashed_password = _hash_password(password)
             return self._db.add_user(email, hashed_password)
         raise ValueError(f"User {email} already exists")

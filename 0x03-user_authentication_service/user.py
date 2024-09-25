@@ -23,7 +23,9 @@ class User(Base):
     reset_token = Column(String(250), nullable=True)
 
     def __repr__(self):
-        return f"<User(id={self.id}, email={self.email}), hashed_password={self.hashed_password})>"
+        return f"<User(id={self.id}, email={self.email}), " \
+            f"hashed_password={self.hashed_password})>"
 
     def __str__(self):
-        return f"User(id={self.id}, email={self.email}), hashed_password={self.hashed_password})"
+        return f"<User(id={self.id}, email={self.email}), " \
+            f"hashed_password={self.hashed_password})>"
