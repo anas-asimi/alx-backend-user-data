@@ -62,8 +62,6 @@ class Auth:
         try:
             user = self._db.find_user_by(email=email)
             hashed_password = _hash_password(password)
-            print(user.hashed_password)
-            print(hashed_password)
             if hashed_password == user.hashed_password:
                 return True
             return False
