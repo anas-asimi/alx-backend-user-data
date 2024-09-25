@@ -76,11 +76,30 @@ class Auth:
             return False
 
     def create_session(self, email: str) -> str:
+        """
+        Create session ID 
+        Args:
+            email (str):
+        """
         assert isinstance(email, str) and len(email) > 0
         try:
             user = self._db.find_user_by(email=email)
             user.session_id = _generate_uuid()
             self._db._session.commit()
             return user.session_id
+        except NoResultFound:
+            return None
+
+    def get_user_from_session_id(self, session_id: str) -> User:
+        """
+        Find user by session ID 
+        Args:
+            session_id (str):
+        """
+        if session_id is None:
+            return
+        try:
+            user = self._db.find_user_by(session_id=session_id)
+            return user
         except NoResultFound:
             return None
