@@ -83,4 +83,4 @@ class Auth:
             self._db._session.commit()
             return user.session_id
         except NoResultFound:
-            pass
+            return None

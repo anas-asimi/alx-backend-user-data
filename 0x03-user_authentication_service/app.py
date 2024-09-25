@@ -2,7 +2,7 @@
 """
 Main file
 """
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, abort, make_response
 from auth import Auth
 
 AUTH = Auth()
@@ -25,6 +25,19 @@ def users():
         return jsonify({"email": email, "message": "user created"})
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
+
+
+@app.route("/sessions", methods=["POST"], strict_slashes=False)
+def login():
+    """login"""
+    email, password = request.form.get("email"), request.form.get("password")
+    if AUTH.valid_login(email, password):
+        new_session = AUTH.create_session(email)
+        payload = {"email": email, "message": "logged in"}
+        resp = make_response(jsonify(payload))
+        resp.set_cookie('session_id', new_session)
+        return resp
+    abort(401)
 
 
 if __name__ == "__main__":
