@@ -55,10 +55,10 @@ class DB:
         except InvalidRequestError:
             raise InvalidRequestError()
 
-    def update_user(self,user_id, **kwargs) -> User:
+    def update_user(self, user_id, **kwargs) -> None:
         """Update a user from the database.
         """
-        keys = ["id","email","hashed_password","session_id","reset_token"]
+        keys = ["id", "email", "hashed_password", "session_id", "reset_token"]
         user = self.find_user_by(id=user_id)
         for key, value in kwargs.items():
             if key not in keys:
