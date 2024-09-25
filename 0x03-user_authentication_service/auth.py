@@ -35,6 +35,12 @@ class Auth:
         self._db = DB()
 
     def register_user(self, email: str, password: str) -> User:
+        """
+        register_user
+        Args:
+            email (str):
+            password (str):
+        """
         assert isinstance(email, str) and len(email) > 0
         assert isinstance(password, str) and len(password) > 0
         try:
@@ -43,3 +49,23 @@ class Auth:
             hashed_password = _hash_password(password)
             return self._db.add_user(email, hashed_password)
         raise ValueError(f"User {email} already exists")
+
+    def valid_login(self, email: str, password: str) -> User:
+        """
+        valid_login
+        Args:
+            email (str):
+            password (str):
+        """
+        assert isinstance(email, str) and len(email) > 0
+        assert isinstance(password, str) and len(password) > 0
+        try:
+            user = self._db.find_user_by(email=email)
+            hashed_password = _hash_password(password)
+            print(user.hashed_password)
+            print(hashed_password)
+            if hashed_password == user.hashed_password:
+                return True
+            return False
+        except NoResultFound:
+            return False
