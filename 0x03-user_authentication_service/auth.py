@@ -5,6 +5,7 @@ auth.py
 
 import bcrypt
 
+
 def _hash_password(password: str) -> bytes:
     """
     _hash_password
