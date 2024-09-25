@@ -77,7 +77,7 @@ class Auth:
 
     def create_session(self, email: str) -> str:
         """
-        Create session ID 
+        Create session ID
         Args:
             email (str):
         """
@@ -92,7 +92,7 @@ class Auth:
 
     def get_user_from_session_id(self, session_id: str) -> User:
         """
-        Find user by session ID 
+        Find user by session ID
         Args:
             session_id (str):
         """
@@ -106,7 +106,7 @@ class Auth:
 
     def destroy_session(self, user_id: int) -> None:
         """
-        Destroy session  
+        Destroy session
         Args:
             user_id (int):
         """
