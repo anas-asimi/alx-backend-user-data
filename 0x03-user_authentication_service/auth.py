@@ -51,6 +51,7 @@ class Auth:
         assert isinstance(email, str) and len(email) > 0
         assert isinstance(password, str) and len(password) > 0
         try:
+            self._db._session.add
             self._db.find_user_by(email=email)
         except NoResultFound:
             hashed_password = _hash_password(password)
